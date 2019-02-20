@@ -1,0 +1,6 @@
+framework module Pods_Rescue_App {
+  umbrella header "Pods-Rescue App-umbrella.h"
+
+  export *
+  module * { export * }
+}
