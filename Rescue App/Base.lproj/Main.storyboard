@@ -311,6 +311,7 @@
                         </userDefinedRuntimeAttributes>
                     </view>
                     <connections>
+                        <outlet property="confirmPassword" destination="QMk-HK-nUg" id="8Vn-Qk-SyW"/>
                         <outlet property="emailField" destination="kp0-pH-Pab" id="iIN-ft-NsK"/>
                         <outlet property="passwordField" destination="Kqk-U1-1dm" id="lDR-oD-VmO"/>
                         <outlet property="typesOfPeoplePicker" destination="l4D-Fk-OOQ" id="F2k-Hs-vca"/>

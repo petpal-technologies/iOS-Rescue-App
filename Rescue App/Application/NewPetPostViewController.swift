@@ -22,6 +22,8 @@ class NewPetPostViewController: UIViewController, CLLocationManagerDelegate, UIN
     @IBOutlet weak var locationDescriptionLabel: UILabel!
     @IBOutlet weak var cameraImageView: UIImageView!
     
+    var imageToSend: UIImage?
+    
     var lat: Double = 0.0
     var long: Double = 0.0
     
@@ -33,42 +35,50 @@ class NewPetPostViewController: UIViewController, CLLocationManagerDelegate, UIN
         
         let dateString = Date().iso8601   //  "2019-02-06T00:35:01.746Z"
         
-        let parameters = ["post":
-            [
-                "title": titleField.text!,
+        let parameters:Parameters = [
                 "description": shortDescriptionField.text!,
                 "created": dateString,
                 "modified": dateString,
-                "long": long,
-                "image_link": "www.google.com",
+                "title": titleField.text!,
+                "long": Float(long),
                 "location_description": "This is a location description",
-                "lat": lat,
-                "post_id": 1,
+                "lat": Float(lat),
                 "user_id": user_id
-            ]
-        ] as [String : Any]
+        ]
         
         let headers = [
             // Fixes Alamofire bug with CSRF token needed
             "Cookie": ""
         ]
         
-        Alamofire.request("http://167.99.162.140/api/new_post", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers).responseData { response in switch response.result {
-            case .success(let data):
-                switch response.response?.statusCode ?? -1 {
-                    case 200:
-                        self.performSegue(withIdentifier: "toSocialSharing", sender: self)
-                    case 401:
-                        Helper.showAlert(viewController: self, title: "Oops", message: "Username or Password Incorrect")
-                    default:
-                        Helper.showAlert(viewController: self, title: "Oops", message: "Unexpected Error")
-                    }
-                case .failure(let error):
-                    Helper.showAlert(viewController: self,title: "Oops!",message: error.localizedDescription)
+        Alamofire.upload(multipartFormData: { multipartFormData in
+            if let image = self.imageToSend {
+                let imageData = image.jpegData(compressionQuality: 0.2)
+                multipartFormData.append(imageData!, withName: "image", fileName: "photo.jpg", mimeType: "jpg/png")
+            }
+        
+            
+            for (key, value) in parameters {
+                if value is String || value is Int || value is Float {
+                    multipartFormData.append("\(value)".data(using: .utf8)!, withName: key)
                 }
-        }
+            }
+        },
+            to: "http://167.99.162.140/api/new_post",
+            headers: headers,
+            encodingCompletion: { encodingResult in
+                switch encodingResult {
+                case .success(let upload, _, _):
+                    upload.responseString { response in
+                        debugPrint(response.result)
+                    }
+                case .failure(let encodingError):
+                    print("encoding Error : \(encodingError)")
+                }
+        })
     }
     
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -115,7 +125,7 @@ class NewPetPostViewController: UIViewController, CLLocationManagerDelegate, UIN
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
-        locationDescriptionLabel.text = "Your current coordinates are: \(locValue.latitude) \(locValue.longitude), you are currently in San Ramon."
+        locationDescriptionLabel.text = "Your current coordinates are: \(locValue.latitude) \(locValue.longitude)"
         self.lat = locValue.latitude
         self.long = locValue.longitude
         
@@ -133,5 +143,6 @@ extension NewPetPostViewController: UIImagePickerControllerDelegate{
             return
         }
         cameraImageView.image = selectedImage
+        imageToSend = selectedImage
     }
 }

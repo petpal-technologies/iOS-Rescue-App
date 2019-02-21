@@ -26,6 +26,39 @@ class MainTableViewController: UITableViewController{
 //        posts.append(post1)
 //        posts.append(post2)
         
+//        Alamofire.request("http://167.99.162.140/api/getPosts").responseJSON { (responseData) -> Void in
+//            if((responseData.result.value) != nil) {
+//
+//                let swiftyJsonVar:JSON = JSON(responseData.result.value!)
+//
+//                if let resData = swiftyJsonVar["posts"].arrayObject {
+//                    for post in resData{
+//                        let J_post = JSON(post)
+//                        let location_desc = J_post["location_description"].string
+//                        let title = J_post["title"].string
+//                        _ = J_post["created"].string
+//                        _ = J_post["modified"].string
+//                        let long = J_post["long"].double
+//                        let lat = J_post["lat"].double
+//                        let description = J_post["description"].string
+//                        let post_uuid = J_post["id"].string
+//                        let image_path = J_post["image"].string
+//                        let pet_post = PetPost(title: title!, description: description!, coordinates: CLLocation(latitude: lat!, longitude: long!), locationDescription: location_desc!, id: post_uuid!, image_path: image_path!)
+//                        self.posts.append(pet_post)
+//                    }
+//                }
+//                if self.posts.count > 0 {
+//                    self.tableView.reloadData()
+//                }
+//            }
+//        }
+//
+//        print(posts)
+//        tableView.reloadData()
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
         Alamofire.request("http://167.99.162.140/api/getPosts").responseJSON { (responseData) -> Void in
             if((responseData.result.value) != nil) {
                 
@@ -35,14 +68,15 @@ class MainTableViewController: UITableViewController{
                     for post in resData{
                         let J_post = JSON(post)
                         let location_desc = J_post["location_description"].string
-                        let image_link = J_post["image_link"].string
                         let title = J_post["title"].string
-                        let created = J_post["created"].string
+                        _ = J_post["created"].string
                         _ = J_post["modified"].string
                         let long = J_post["long"].double
                         let lat = J_post["lat"].double
                         let description = J_post["description"].string
-                        let pet_post = PetPost(title: title!, description: description!, imageLink: image_link!, uname_poster: "", coordinates: CLLocation(latitude: lat!, longitude: long!), locationDescription: location_desc!)
+                        let post_uuid = J_post["id"].string
+                        let image_path = J_post["image"].string
+                        let pet_post = PetPost(title: title!, description: description!, coordinates: CLLocation(latitude: lat!, longitude: long!), locationDescription: location_desc!, id: post_uuid!, image_path: image_path!)
                         self.posts.append(pet_post)
                     }
                 }
@@ -51,10 +85,6 @@ class MainTableViewController: UITableViewController{
                 }
             }
         }
-
-        print(posts)
-        tableView.reloadData()
-        
     }
 
     
@@ -64,11 +94,11 @@ class MainTableViewController: UITableViewController{
         let post = posts[indexPath.row]
         cell.titleLabel?.text = post.title
         cell.descriptionLabel?.text = post.description
-        return cell
-    }
-    
-    func getPosts(){
+        PetPost.getImage(imagePath: post.image_path, completionHandler: { (image) in
+            cell.postImage.image = image
+        })
         
+        return cell
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

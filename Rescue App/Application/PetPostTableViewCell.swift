@@ -17,6 +17,8 @@ class PetPostTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        postImage.contentMode = UIView.ContentMode.scaleAspectFill
+        postImage.clipsToBounds = true
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

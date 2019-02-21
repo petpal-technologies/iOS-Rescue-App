@@ -13,9 +13,15 @@ class RegisterViewController: UIViewController {
 
     @IBOutlet weak var emailField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
+    @IBOutlet weak var confirmPassword: UITextField!
+
     var typesOfPeople = [String]()
     
     @IBOutlet weak var typesOfPeoplePicker: UIPickerView!
+    
+    @objc func doneButtonAction() {
+        self.view.endEditing(true)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,6 +32,18 @@ class RegisterViewController: UIViewController {
         typesOfPeople.append("A PETA member")
         typesOfPeoplePicker.delegate = self
         typesOfPeoplePicker.dataSource = self
+        
+        //init toolbar
+        let toolbar:UIToolbar = UIToolbar(frame: CGRect(x: 0, y: 0,  width: self.view.frame.size.width, height: 30))
+        //create left side empty space so that done button set on right side
+        let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let doneBtn: UIBarButtonItem = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(self.doneButtonAction))
+        toolbar.setItems([flexSpace, doneBtn], animated: false)
+        toolbar.sizeToFit()
+        //setting toolbar as inputAccessoryView
+        self.emailField.inputAccessoryView = toolbar
+        self.passwordField.inputAccessoryView = toolbar
+        self.confirmPassword.inputAccessoryView = toolbar
     }
     
     func signUp(username:String,password:String) {

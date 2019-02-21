@@ -435,7 +435,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = TUD2FU9G9K;
+				DEVELOPMENT_TEAM = AUX9KW9J6M;
 				INFOPLIST_FILE = "Rescue App/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -454,7 +454,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = TUD2FU9G9K;
+				DEVELOPMENT_TEAM = AUX9KW9J6M;
 				INFOPLIST_FILE = "Rescue App/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
