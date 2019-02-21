@@ -71,6 +71,8 @@ class NewPetPostViewController: UIViewController, CLLocationManagerDelegate, UIN
                 case .success(let upload, _, _):
                     upload.responseString { response in
                         debugPrint(response.result)
+                        _ = self.navigationController?.popViewController(animated: true)
+
                     }
                 case .failure(let encodingError):
                     print("encoding Error : \(encodingError)")
@@ -135,14 +137,3 @@ class NewPetPostViewController: UIViewController, CLLocationManagerDelegate, UIN
 
 }
 
-extension NewPetPostViewController: UIImagePickerControllerDelegate{
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]){
-        imagePicker.dismiss(animated: true, completion: nil)
-        guard let selectedImage = info[.originalImage] as? UIImage else {
-            print("Image not found!")
-            return
-        }
-        cameraImageView.image = selectedImage
-        imageToSend = selectedImage
-    }
-}

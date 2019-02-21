@@ -9,22 +9,100 @@
 import UIKit
 
 class PetPostTableViewCell: UITableViewCell {
-
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var descriptionLabel: UILabel!
-    @IBOutlet weak var postImage: UIImageView!
+    
+    var postTitle: String?
+    var postDescription: String?
+    var postImage: UIImage?
+    
+    var titleLabel: UILabel = {
+        var titleLabel = UILabel()
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        return titleLabel
+    }()
+    
+    var descriptionLabel: UILabel = {
+        var descLabel = UILabel()
+        descLabel.translatesAutoresizingMaskIntoConstraints = false
+        return descLabel
+    }()
+    
+    var postImageView: UIImageView = {
+        var imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        imageView.layer.cornerRadius = 10
+        return imageView
+    }()
+    
+    let containerView:UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.clipsToBounds = true
+        return view
+    }()
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
-        postImage.contentMode = UIView.ContentMode.scaleAspectFill
-        postImage.clipsToBounds = true
+        
     }
 
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        containerView.addSubview(titleLabel)
+        containerView.addSubview(descriptionLabel)
+        self.addSubview(postImageView)
+        self.addSubview(containerView)
+        
+        postImageView.centerYAnchor.constraint(equalTo:self.centerYAnchor).isActive = true
+        postImageView.leadingAnchor.constraint(equalTo:self.leadingAnchor, constant:10).isActive = true
+        postImageView.widthAnchor.constraint(equalToConstant:70).isActive = true
+        postImageView.heightAnchor.constraint(equalToConstant:70).isActive = true
+
+        containerView.centerYAnchor.constraint(equalTo:self.centerYAnchor).isActive = true
+        containerView.leadingAnchor.constraint(equalTo:self.postImageView.trailingAnchor, constant:10).isActive = true
+        containerView.trailingAnchor.constraint(equalTo:self.trailingAnchor, constant:-10).isActive = true
+        containerView.heightAnchor.constraint(equalToConstant:40).isActive = true
+        
+        titleLabel.topAnchor.constraint(equalTo:self.containerView.topAnchor).isActive = true
+        titleLabel.leadingAnchor.constraint(equalTo:self.containerView.leadingAnchor).isActive = true
+        titleLabel.trailingAnchor.constraint(equalTo:self.containerView.trailingAnchor).isActive = true
+        
+        descriptionLabel.topAnchor.constraint(equalTo:self.titleLabel.bottomAnchor).isActive = true
+        descriptionLabel.leadingAnchor.constraint(equalTo:self.containerView.leadingAnchor).isActive = true
+        descriptionLabel.topAnchor.constraint(equalTo:self.titleLabel.bottomAnchor).isActive = true
+        descriptionLabel.leadingAnchor.constraint(equalTo:self.containerView.leadingAnchor).isActive = true
+
+        
+    }
+   
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        if let postTitle = postTitle {
+            titleLabel.text = postTitle
+        }
+        
+        if let postDescription = postDescription {
+            descriptionLabel.text = postDescription
+        }
+        
+        if let postImage = postImage {
+            postImageView.image = postImage
+        }
+    }
+    
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
     }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     
 }
