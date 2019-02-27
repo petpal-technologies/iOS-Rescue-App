@@ -18,13 +18,19 @@ class MainTableViewController: UITableViewController{
         super.viewDidLoad()
         
         tableView.register(PetPostTableViewCell.self, forCellReuseIdentifier: "PetPostCell")
+    
         
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        posts.removeAll()
+        // Fetch posts again on reload (definitely not the best way to do it)
         Alamofire.request("http://167.99.162.140/api/getPosts").responseJSON { (responseData) -> Void in
             if((responseData.result.value) != nil) {
                 
-                let swiftyJsonVar:JSON = JSON(responseData.result.value!)
+                let jsonObject:JSON = JSON(responseData.result.value!)
                 
-                if let resData = swiftyJsonVar["posts"].arrayObject {
+                if let resData = jsonObject["posts"].arrayObject {
                     for post in resData{
                         let J_post = JSON(post)
                         let location_desc = J_post["location_description"].string
@@ -45,7 +51,7 @@ class MainTableViewController: UITableViewController{
                 }
             }
         }
-        
+        navigationItem.hidesBackButton = true
     }
 
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

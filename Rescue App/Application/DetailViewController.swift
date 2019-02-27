@@ -16,6 +16,21 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var locationCoordinatesLabel: UILabel!
     @IBOutlet weak var locationDescriptionLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
+    @IBOutlet weak var shareButton: UIBarButtonItem!
+    
+    @IBAction func shareButtonPressed(_ sender: Any) {
+        
+        let link = API_HOST + "/post/" + (post?.id)!
+        
+        // set up activity view controller
+        let textToShare = [ link ]
+        let activityViewController = UIActivityViewController(activityItems: textToShare, applicationActivities: nil)
+        activityViewController.popoverPresentationController?.sourceView = self.view // so that iPads won't crash
+        
+        // present the view controller
+        self.present(activityViewController, animated: true, completion: nil)
+
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

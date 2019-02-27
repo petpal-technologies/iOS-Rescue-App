@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		8317C4C9220259DD0044986E /* PetPostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8317C4C7220259DD0044986E /* PetPostTableViewCell.swift */; };
 		832B486C221E9C2A00D8289A /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 832B486B221E9C2A00D8289A /* DetailViewController.swift */; };
+		833D723C2224802C00EFECE8 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 833D723B2224802C00EFECE8 /* OnboardingViewController.swift */; };
+		833D723E222496E100EFECE8 /* UserAuthHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 833D723D222496E100EFECE8 /* UserAuthHelpers.swift */; };
+		83484E9A2224F50F00189229 /* GetStartedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83484E992224F50F00189229 /* GetStartedViewController.swift */; };
 		835025F321FAB3D10048A15D /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835025F221FAB3D10048A15D /* MainViewController.swift */; };
 		835025F521FAB3DA0048A15D /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835025F421FAB3DA0048A15D /* CameraViewController.swift */; };
 		835D0C9021FFD11A008A63CA /* VerificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835D0C8F21FFD11A008A63CA /* VerificationViewController.swift */; };
@@ -33,6 +36,9 @@
 		5BC041AECC75CB54F9386EDE /* Pods-Rescue App.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Rescue App.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Rescue App/Pods-Rescue App.debug.xcconfig"; sourceTree = "<group>"; };
 		8317C4C7220259DD0044986E /* PetPostTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetPostTableViewCell.swift; sourceTree = "<group>"; };
 		832B486B221E9C2A00D8289A /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		833D723B2224802C00EFECE8 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
+		833D723D222496E100EFECE8 /* UserAuthHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAuthHelpers.swift; sourceTree = "<group>"; };
+		83484E992224F50F00189229 /* GetStartedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetStartedViewController.swift; sourceTree = "<group>"; };
 		835025F221FAB3D10048A15D /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		835025F421FAB3DA0048A15D /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		835D0C8F21FFD11A008A63CA /* VerificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationViewController.swift; sourceTree = "<group>"; };
@@ -107,7 +113,10 @@
 		83DDCACC2207C574001DF253 /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
+				833D723D222496E100EFECE8 /* UserAuthHelpers.swift */,
+				833D723B2224802C00EFECE8 /* OnboardingViewController.swift */,
 				83EF766721F625E300E293C2 /* LogInViewController.swift */,
+				83484E992224F50F00189229 /* GetStartedViewController.swift */,
 				835D0C8F21FFD11A008A63CA /* VerificationViewController.swift */,
 				83DDCACA22078471001DF253 /* RegisterViewController.swift */,
 			);
@@ -236,11 +245,17 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-Rescue App/Pods-Rescue App-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
+				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
+				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -284,8 +299,11 @@
 				83DDCACF2207C5F9001DF253 /* PetPost.swift in Sources */,
 				83BFC362221CD730000E121A /* Extensions.swift in Sources */,
 				83EF766821F625E300E293C2 /* LogInViewController.swift in Sources */,
+				833D723E222496E100EFECE8 /* UserAuthHelpers.swift in Sources */,
+				833D723C2224802C00EFECE8 /* OnboardingViewController.swift in Sources */,
 				83DDCAC922078275001DF253 /* Helper.swift in Sources */,
 				832B486C221E9C2A00D8289A /* DetailViewController.swift in Sources */,
+				83484E9A2224F50F00189229 /* GetStartedViewController.swift in Sources */,
 				83EF766621F625E300E293C2 /* AppDelegate.swift in Sources */,
 				83DDCAC7220781B3001DF253 /* Constants.swift in Sources */,
 			);
@@ -368,6 +386,7 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "-ObjC";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -422,6 +441,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				OTHER_LDFLAGS = "-ObjC";
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";

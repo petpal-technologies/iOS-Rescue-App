@@ -19,7 +19,6 @@ class NewPetPostViewController: UIViewController, CLLocationManagerDelegate, UIN
     @IBOutlet weak var shortDescriptionField: UITextField!
     @IBOutlet weak var locationDescriptionField: UITextField!
     @IBOutlet weak var detailDescriptionField: UITextView!
-    @IBOutlet weak var locationDescriptionLabel: UILabel!
     @IBOutlet weak var cameraImageView: UIImageView!
     
     var imageToSend: UIImage?
@@ -34,6 +33,13 @@ class NewPetPostViewController: UIViewController, CLLocationManagerDelegate, UIN
     @IBAction func postButtonPressed(_ sender: Any) {
         
         let dateString = Date().iso8601   //  "2019-02-06T00:35:01.746Z"
+        
+        if (shortDescriptionField.text == nil || titleField.text == nil || imageToSend == nil) {
+            let alert = UIAlertController(title: "Missing Fields", message: "Please fill in all data fields, don't forget to take a picture :)", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
+            }))
+            self.present(alert, animated: true, completion: nil)
+        }
         
         let parameters:Parameters = [
                 "description": shortDescriptionField.text!,
@@ -127,7 +133,7 @@ class NewPetPostViewController: UIViewController, CLLocationManagerDelegate, UIN
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
-        locationDescriptionLabel.text = "Your current coordinates are: \(locValue.latitude) \(locValue.longitude)"
+//        locationDescriptionLabel.text = "Your current coordinates are: \(locValue.latitude) \(locValue.longitude)"
         self.lat = locValue.latitude
         self.long = locValue.longitude
         

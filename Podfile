@@ -11,6 +11,7 @@ target 'Rescue App' do
 source 'https://github.com/CocoaPods/Specs.git'
 pod 'Alamofire', '~> 4.7'
 pod 'SwiftyJSON', '~> 4.0'
+pod 'FBSDKLoginKit'
 
 
 
