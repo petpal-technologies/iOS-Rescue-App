@@ -25,7 +25,7 @@ class MainTableViewController: UITableViewController{
     override func viewWillAppear(_ animated: Bool) {
         posts.removeAll()
         // Fetch posts again on reload (definitely not the best way to do it)
-        Alamofire.request("http://167.99.162.140/api/getPosts").responseJSON { (responseData) -> Void in
+        Alamofire.request("\(API_HOST)/api/getPosts").responseJSON { (responseData) -> Void in
             if((responseData.result.value) != nil) {
                 
                 let jsonObject:JSON = JSON(responseData.result.value!)
@@ -39,10 +39,10 @@ class MainTableViewController: UITableViewController{
                         _ = J_post["modified"].string
                         let long = J_post["long"].double
                         let lat = J_post["lat"].double
-                        let description = J_post["description"].string
                         let post_uuid = J_post["id"].string
                         let image_path = J_post["image"].string
-                        let pet_post = PetPost(title: title!, description: description!, coordinates: CLLocation(latitude: lat!, longitude: long!), locationDescription: location_desc!, id: post_uuid!, image_path: image_path!)
+                        let description = J_post["description"].string
+                        let pet_post = PetPost(title: title!, coordinates: CLLocation(latitude: lat!, longitude: long!), locationDescription: location_desc!, id: post_uuid!, image_path: image_path!, description: description!)
                         self.posts.append(pet_post)
                     }
                 }
@@ -55,14 +55,13 @@ class MainTableViewController: UITableViewController{
     }
 
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 150
+        return 300
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = self.tableView.dequeueReusableCell(withIdentifier: "PetPostCell") as! PetPostTableViewCell
         let post = posts[indexPath.row]
         cell.postTitle = post.title
-        cell.postDescription = post.description
         cell.postImageView.download(imagePath: post.image_path)
         cell.layoutSubviews()
         return cell

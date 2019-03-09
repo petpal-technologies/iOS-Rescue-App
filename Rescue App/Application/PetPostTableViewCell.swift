@@ -56,19 +56,22 @@ class PetPostTableViewCell: UITableViewCell {
         self.addSubview(postImageView)
         self.addSubview(containerView)
         
-        postImageView.centerYAnchor.constraint(equalTo:self.centerYAnchor).isActive = true
+        
         postImageView.leadingAnchor.constraint(equalTo:self.leadingAnchor, constant:10).isActive = true
-        postImageView.widthAnchor.constraint(equalToConstant:70).isActive = true
-        postImageView.heightAnchor.constraint(equalToConstant:70).isActive = true
+        postImageView.widthAnchor.constraint(equalToConstant:225).isActive = true
+        postImageView.heightAnchor.constraint(equalToConstant: 225).isActive = true
+        postImageView.topAnchor.constraint(equalTo: self.containerView.bottomAnchor, constant: 10).isActive = true
 
-        containerView.centerYAnchor.constraint(equalTo:self.centerYAnchor).isActive = true
-        containerView.leadingAnchor.constraint(equalTo:self.postImageView.trailingAnchor, constant:10).isActive = true
+        containerView.topAnchor.constraint(equalTo: self.topAnchor, constant: 10).isActive = true
+        containerView.leadingAnchor.constraint(equalTo:self.leadingAnchor, constant:10).isActive = true
         containerView.trailingAnchor.constraint(equalTo:self.trailingAnchor, constant:-10).isActive = true
         containerView.heightAnchor.constraint(equalToConstant:40).isActive = true
+        
         
         titleLabel.topAnchor.constraint(equalTo:self.containerView.topAnchor).isActive = true
         titleLabel.leadingAnchor.constraint(equalTo:self.containerView.leadingAnchor).isActive = true
         titleLabel.trailingAnchor.constraint(equalTo:self.containerView.trailingAnchor).isActive = true
+        
         
         descriptionLabel.topAnchor.constraint(equalTo:self.titleLabel.bottomAnchor).isActive = true
         descriptionLabel.leadingAnchor.constraint(equalTo:self.containerView.leadingAnchor).isActive = true

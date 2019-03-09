@@ -16,11 +16,11 @@ class NewPetPostViewController: UIViewController, CLLocationManagerDelegate, UIN
     
     // MARK: IBOutlets
     @IBOutlet weak var titleField: UITextField!
-    @IBOutlet weak var shortDescriptionField: UITextField!
     @IBOutlet weak var locationDescriptionField: UITextField!
-    @IBOutlet weak var detailDescriptionField: UITextView!
     @IBOutlet weak var cameraImageView: UIImageView!
+    @IBOutlet weak var descriptionLabel: UITextField!
     
+    @IBOutlet weak var mapView: MKMapView!
     var imageToSend: UIImage?
     
     var lat: Double = 0.0
@@ -29,12 +29,13 @@ class NewPetPostViewController: UIViewController, CLLocationManagerDelegate, UIN
     let locationManager = CLLocationManager()
     
     var imagePicker: UIImagePickerController!
-
+    
+    
+    // MARK: TODO
     @IBAction func postButtonPressed(_ sender: Any) {
-        
         let dateString = Date().iso8601   //  "2019-02-06T00:35:01.746Z"
         
-        if (shortDescriptionField.text == nil || titleField.text == nil || imageToSend == nil) {
+        if (titleField.text == nil || imageToSend == nil || locationDescriptionField.text == nil) {
             let alert = UIAlertController(title: "Missing Fields", message: "Please fill in all data fields, don't forget to take a picture :)", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
             }))
@@ -42,14 +43,15 @@ class NewPetPostViewController: UIViewController, CLLocationManagerDelegate, UIN
         }
         
         let parameters:Parameters = [
-                "description": shortDescriptionField.text!,
                 "created": dateString,
                 "modified": dateString,
                 "title": titleField.text!,
                 "long": Float(long),
-                "location_description": "This is a location description",
+                "location_description": locationDescriptionField.text!,
                 "lat": Float(lat),
-                "user_id": user_id
+                "user_id": user_id,
+                "description": descriptionLabel.text!,
+                "views": 0
         ]
         
         let headers = [
@@ -70,14 +72,14 @@ class NewPetPostViewController: UIViewController, CLLocationManagerDelegate, UIN
                 }
             }
         },
-            to: "http://167.99.162.140/api/new_post",
+            to: "\(API_HOST)/api/new_post",
             headers: headers,
             encodingCompletion: { encodingResult in
                 switch encodingResult {
                 case .success(let upload, _, _):
                     upload.responseString { response in
                         debugPrint(response.result)
-                        _ = self.navigationController?.popViewController(animated: true)
+                        self.navigationController?.popViewController(animated: true)
 
                     }
                 case .failure(let encodingError):
@@ -89,7 +91,8 @@ class NewPetPostViewController: UIViewController, CLLocationManagerDelegate, UIN
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+//        assignbackground(with: UIImage(named: "dolphin_hoop")!, view: self.view)
+        self.mapView.layer.cornerRadius = 5
         // For use in foreground
         self.locationManager.requestWhenInUseAuthorization()
         
@@ -98,7 +101,6 @@ class NewPetPostViewController: UIViewController, CLLocationManagerDelegate, UIN
             locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
             locationManager.startUpdatingLocation()
         }
-        
         // MARK: Show done button on keyboard
         let toolbar:UIToolbar = UIToolbar(frame: CGRect(x: 0, y: 0,  width: self.view.frame.size.width, height: 30))
         let flexSpace = UIBarButtonItem(barButtonSystemItem:    .flexibleSpace, target: nil, action: nil)
@@ -106,9 +108,7 @@ class NewPetPostViewController: UIViewController, CLLocationManagerDelegate, UIN
         toolbar.setItems([flexSpace, doneBtn], animated: false)
         toolbar.sizeToFit()
         self.titleField.inputAccessoryView = toolbar
-        self.shortDescriptionField.inputAccessoryView = toolbar
         self.locationDescriptionField.inputAccessoryView = toolbar
-        self.detailDescriptionField.inputAccessoryView = toolbar
         self.locationDescriptionField.inputAccessoryView = toolbar
 
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))

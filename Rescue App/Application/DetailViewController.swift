@@ -35,12 +35,19 @@ class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        titleLabel.text = post?.title
-        imageView.download(imagePath: (post?.image_path)!)
-        locationCoordinatesLabel.text = "Location \(post?.coordinates.coordinate.latitude)!, \(post?.coordinates.coordinate.longitude)!"
-        locationDescriptionLabel.text = post?.locationDescription
-        descriptionLabel.text = post?.description
         
+        if let _post = post {
+            titleLabel.text = _post.title
+            imageView.download(imagePath: (_post.image_path))
+            titleLabel.text = _post.title
+        
+            imageView.download(imagePath: _post.image_path)
+        
+            let latitude = _post.coordinates.coordinate.latitude
+            let longitude = _post.coordinates.coordinate.longitude
+            locationCoordinatesLabel.text = "Location \(latitude), \(longitude)"
+            locationDescriptionLabel.text = _post.locationDescription
+        }
     }
     
 
