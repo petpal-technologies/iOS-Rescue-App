@@ -12,29 +12,31 @@ import MapKit
 import Alamofire
 
 
-class NewPetPostViewController: UIViewController, CLLocationManagerDelegate, UINavigationControllerDelegate {
+class NewPetPostViewController: UIViewController, CLLocationManagerDelegate, UINavigationControllerDelegate, MKMapViewDelegate {
     
     // MARK: IBOutlets
     @IBOutlet weak var titleField: UITextField!
-    @IBOutlet weak var shortDescriptionField: UITextField!
     @IBOutlet weak var locationDescriptionField: UITextField!
-    @IBOutlet weak var detailDescriptionField: UITextView!
     @IBOutlet weak var cameraImageView: UIImageView!
+    @IBOutlet weak var descriptionLabel: UITextView!
     
+    @IBOutlet weak var mapView: MKMapView!
     var imageToSend: UIImage?
     
+    let newPin = MKPointAnnotation()
     var lat: Double = 0.0
     var long: Double = 0.0
     
     let locationManager = CLLocationManager()
     
     var imagePicker: UIImagePickerController!
-
+    
+    
+    // MARK: TODO
     @IBAction func postButtonPressed(_ sender: Any) {
-        
         let dateString = Date().iso8601   //  "2019-02-06T00:35:01.746Z"
         
-        if (shortDescriptionField.text == nil || titleField.text == nil || imageToSend == nil) {
+        if (titleField.text == nil || imageToSend == nil || locationDescriptionField.text == nil) {
             let alert = UIAlertController(title: "Missing Fields", message: "Please fill in all data fields, don't forget to take a picture :)", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
             }))
@@ -42,14 +44,15 @@ class NewPetPostViewController: UIViewController, CLLocationManagerDelegate, UIN
         }
         
         let parameters:Parameters = [
-                "description": shortDescriptionField.text!,
                 "created": dateString,
                 "modified": dateString,
                 "title": titleField.text!,
                 "long": Float(long),
-                "location_description": "This is a location description",
+                "location_description": locationDescriptionField.text!,
                 "lat": Float(lat),
-                "user_id": user_id
+                "user_id": user_id,
+                "description": descriptionLabel.text!,
+                "views": 0
         ]
         
         let headers = [
@@ -70,14 +73,14 @@ class NewPetPostViewController: UIViewController, CLLocationManagerDelegate, UIN
                 }
             }
         },
-            to: "http://167.99.162.140/api/new_post",
+            to: "\(API_HOST)/api/new_post",
             headers: headers,
             encodingCompletion: { encodingResult in
                 switch encodingResult {
                 case .success(let upload, _, _):
                     upload.responseString { response in
                         debugPrint(response.result)
-                        _ = self.navigationController?.popViewController(animated: true)
+                        self.navigationController?.popViewController(animated: true)
 
                     }
                 case .failure(let encodingError):
@@ -89,7 +92,8 @@ class NewPetPostViewController: UIViewController, CLLocationManagerDelegate, UIN
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+//        assignbackground(with: UIImage(named: "dolphin_hoop")!, view: self.view)
+        self.mapView.layer.cornerRadius = 5
         // For use in foreground
         self.locationManager.requestWhenInUseAuthorization()
         
@@ -98,7 +102,6 @@ class NewPetPostViewController: UIViewController, CLLocationManagerDelegate, UIN
             locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
             locationManager.startUpdatingLocation()
         }
-        
         // MARK: Show done button on keyboard
         let toolbar:UIToolbar = UIToolbar(frame: CGRect(x: 0, y: 0,  width: self.view.frame.size.width, height: 30))
         let flexSpace = UIBarButtonItem(barButtonSystemItem:    .flexibleSpace, target: nil, action: nil)
@@ -106,14 +109,18 @@ class NewPetPostViewController: UIViewController, CLLocationManagerDelegate, UIN
         toolbar.setItems([flexSpace, doneBtn], animated: false)
         toolbar.sizeToFit()
         self.titleField.inputAccessoryView = toolbar
-        self.shortDescriptionField.inputAccessoryView = toolbar
         self.locationDescriptionField.inputAccessoryView = toolbar
-        self.detailDescriptionField.inputAccessoryView = toolbar
         self.locationDescriptionField.inputAccessoryView = toolbar
 
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
         cameraImageView.isUserInteractionEnabled = true
         cameraImageView.addGestureRecognizer(tapGestureRecognizer)
+        
+        mapView.delegate = self
+        
+        descriptionLabel.layer.cornerRadius = 5
+        
+        //Drop pin on map
         
     }
     
@@ -131,13 +138,55 @@ class NewPetPostViewController: UIViewController, CLLocationManagerDelegate, UIN
         self.view.endEditing(true)
     }
     
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
-//        locationDescriptionLabel.text = "Your current coordinates are: \(locValue.latitude) \(locValue.longitude)"
-        self.lat = locValue.latitude
-        self.long = locValue.longitude
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        if annotation is MKUserLocation {
+            return nil
+        }
         
+        let reuseId = "pin"
+        var pinView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseId) as? MKPinAnnotationView
+        if pinView == nil {
+            pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
+            pinView?.isDraggable = true
+        }
+        else {
+            pinView?.annotation = annotation
+        }
+        
+        pinView?.animatesDrop = true
+        return pinView
+    }
+
+    
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, didChange newState: MKAnnotationView.DragState, fromOldState oldState: MKAnnotationView.DragState) {
+        if (newState == MKAnnotationView.DragState.ending) {
+            let droppedAt = view.annotation?.coordinate
+            self.lat = droppedAt?.latitude ?? 0.0
+            self.long = droppedAt?.longitude ?? 0.0
+        }
+        
+        if (newState == .canceling ){
+            view.setDragState(.none, animated: true)
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        let location = locations.last! as CLLocation
+        
+        let center = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+        let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
+        
+        self.lat = center.latitude
+        self.long = center.longitude
+        
+        //set region on the map
+        mapView.setRegion(region, animated: true)
+        
+        newPin.coordinate = location.coordinate
+        mapView.addAnnotation(newPin)
+       
         locationManager.stopUpdatingLocation()
+        
     }
 
 

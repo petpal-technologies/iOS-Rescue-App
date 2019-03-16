@@ -18,6 +18,17 @@ extension ISO8601DateFormatter {
         self.timeZone = timeZone
     }
 }
+
+extension Encodable {
+    func asDictionary() throws -> [String: Any] {
+        let data = try JSONEncoder().encode(self)
+        guard let dictionary = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any] else {
+            throw NSError()
+        }
+        return dictionary
+    }
+}
+
 extension Formatter {
     static let iso8601 = ISO8601DateFormatter([.withInternetDateTime, .withFractionalSeconds])
 }
@@ -39,7 +50,7 @@ extension UIImage {
 }
 extension UIImageView {
     func download(imagePath:String) {
-        if let url = URL(string: "http://167.99.162.140\(imagePath)") {
+        if let url = URL(string: "\(API_HOST)\(imagePath)") {
             Alamofire.request(url).responseData { (response) in
                 switch response.response?.statusCode ?? -1 {
                 case 200:
@@ -60,7 +71,6 @@ extension UIImageView {
         
     }
 }
-
 
 extension NewPetPostViewController: UIImagePickerControllerDelegate{
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]){

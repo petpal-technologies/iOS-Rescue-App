@@ -40,7 +40,7 @@ class LogInViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        assignbackground(with: UIImage(named: "assorted_animals")!, view: self.view)
         facebookLogin.layer.cornerRadius = 15
         facebookLogin.clipsToBounds = true
         
