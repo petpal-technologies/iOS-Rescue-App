@@ -12,17 +12,18 @@ import MapKit
 import Alamofire
 
 
-class NewPetPostViewController: UIViewController, CLLocationManagerDelegate, UINavigationControllerDelegate {
+class NewPetPostViewController: UIViewController, CLLocationManagerDelegate, UINavigationControllerDelegate, MKMapViewDelegate {
     
     // MARK: IBOutlets
     @IBOutlet weak var titleField: UITextField!
     @IBOutlet weak var locationDescriptionField: UITextField!
     @IBOutlet weak var cameraImageView: UIImageView!
-    @IBOutlet weak var descriptionLabel: UITextField!
+    @IBOutlet weak var descriptionLabel: UITextView!
     
     @IBOutlet weak var mapView: MKMapView!
     var imageToSend: UIImage?
     
+    let newPin = MKPointAnnotation()
     var lat: Double = 0.0
     var long: Double = 0.0
     
@@ -115,6 +116,12 @@ class NewPetPostViewController: UIViewController, CLLocationManagerDelegate, UIN
         cameraImageView.isUserInteractionEnabled = true
         cameraImageView.addGestureRecognizer(tapGestureRecognizer)
         
+        mapView.delegate = self
+        
+        descriptionLabel.layer.cornerRadius = 5
+        
+        //Drop pin on map
+        
     }
     
     // MARK: Tap gesture recognizers
@@ -131,13 +138,55 @@ class NewPetPostViewController: UIViewController, CLLocationManagerDelegate, UIN
         self.view.endEditing(true)
     }
     
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
-//        locationDescriptionLabel.text = "Your current coordinates are: \(locValue.latitude) \(locValue.longitude)"
-        self.lat = locValue.latitude
-        self.long = locValue.longitude
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        if annotation is MKUserLocation {
+            return nil
+        }
         
+        let reuseId = "pin"
+        var pinView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseId) as? MKPinAnnotationView
+        if pinView == nil {
+            pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
+            pinView?.isDraggable = true
+        }
+        else {
+            pinView?.annotation = annotation
+        }
+        
+        pinView?.animatesDrop = true
+        return pinView
+    }
+
+    
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, didChange newState: MKAnnotationView.DragState, fromOldState oldState: MKAnnotationView.DragState) {
+        if (newState == MKAnnotationView.DragState.ending) {
+            let droppedAt = view.annotation?.coordinate
+            self.lat = droppedAt?.latitude ?? 0.0
+            self.long = droppedAt?.longitude ?? 0.0
+        }
+        
+        if (newState == .canceling ){
+            view.setDragState(.none, animated: true)
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        let location = locations.last! as CLLocation
+        
+        let center = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+        let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
+        
+        self.lat = center.latitude
+        self.long = center.longitude
+        
+        //set region on the map
+        mapView.setRegion(region, animated: true)
+        
+        newPin.coordinate = location.coordinate
+        mapView.addAnnotation(newPin)
+       
         locationManager.stopUpdatingLocation()
+        
     }
 
 

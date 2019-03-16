@@ -86,3 +86,24 @@ func signOut(viewController: UIViewController) {
     }
     
 }
+
+
+func editPost(viewController: UIViewController, post: PetPost) {
+    
+    let params = ["title":post.title, "lat": post.coordinates.coordinate.latitude, "long": post.coordinates.coordinate.longitude, "location_description": post.locationDescription, "id": post.id, "description": post.description, "status": post.status] as [String:Any]
+    // Need to upload image also.
+    
+    Alamofire.request(API_HOST+"/api/editPost",method:.post,parameters:params).responseData {
+        response in switch response.result {
+        case .success(let data):
+            switch response.response?.statusCode ?? -1 {
+            case 200:
+                navigateToTabBar(viewController: viewController)
+            default:
+                showAlert(viewController: viewController, title: "Oops", message: "Unexpected Error")
+            }
+        case .failure(let error):
+            showAlert(viewController: viewController,title: "Oops!",message: error.localizedDescription)
+        }
+    }
+}

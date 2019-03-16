@@ -8,7 +8,7 @@
 
 import Foundation
 
-let API_HOST = "http://petpal.in"
+let API_HOST = "http://petpal.world"
 let SOCK_HOST = ""
 
 var user_id: String = ""

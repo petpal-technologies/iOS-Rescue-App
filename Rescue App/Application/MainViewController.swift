@@ -42,11 +42,13 @@ class MainTableViewController: UITableViewController{
                         let post_uuid = J_post["id"].string
                         let image_path = J_post["image"].string
                         let description = J_post["description"].string
-                        let pet_post = PetPost(title: title!, coordinates: CLLocation(latitude: lat!, longitude: long!), locationDescription: location_desc!, id: post_uuid!, image_path: image_path!, description: description!)
+                        let status = J_post["status"].string
+                        let pet_post = PetPost(title: title!, coordinates: CLLocation(latitude: lat!, longitude: long!), locationDescription: location_desc!, id: post_uuid!, image_path: image_path!, description: description!, status: status!)
                         self.posts.append(pet_post)
                     }
                 }
                 if self.posts.count > 0 {
+                    self.posts.reverse()
                     self.tableView.reloadData()
                 }
             }

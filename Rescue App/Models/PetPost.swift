@@ -20,14 +20,16 @@ struct PetPost {
     var image_path: String
     var image = UIImage(named: "404-not-found")
     var description: String
+    var status: String
     
-    init(title:String, coordinates:CLLocation, locationDescription:String, id: String, image_path: String, description: String) {
+    init(title:String, coordinates:CLLocation, locationDescription:String, id: String, image_path: String, description: String, status: String) {
         self.title = title
         self.locationDescription = locationDescription
         self.coordinates = coordinates
         self.id = id
         self.image_path = image_path
         self.description = description
+        self.status = status
     }
     
 }

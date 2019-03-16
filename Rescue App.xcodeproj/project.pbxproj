@@ -26,6 +26,7 @@
 		83DDCAC922078275001DF253 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83DDCAC822078275001DF253 /* Helper.swift */; };
 		83DDCACB22078471001DF253 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83DDCACA22078471001DF253 /* RegisterViewController.swift */; };
 		83DDCACF2207C5F9001DF253 /* PetPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83DDCACE2207C5F9001DF253 /* PetPost.swift */; };
+		83EE195B223C049700C6B5BC /* UpdateStatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83EE195A223C049700C6B5BC /* UpdateStatusViewController.swift */; };
 		83EF766621F625E300E293C2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83EF766521F625E300E293C2 /* AppDelegate.swift */; };
 		83EF766821F625E300E293C2 /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83EF766721F625E300E293C2 /* LogInViewController.swift */; };
 		83EF766B21F625E300E293C2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 83EF766921F625E300E293C2 /* Main.storyboard */; };
@@ -56,6 +57,7 @@
 		83DDCAC822078275001DF253 /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		83DDCACA22078471001DF253 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		83DDCACE2207C5F9001DF253 /* PetPost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetPost.swift; sourceTree = "<group>"; };
+		83EE195A223C049700C6B5BC /* UpdateStatusViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateStatusViewController.swift; sourceTree = "<group>"; };
 		83EF766221F625E300E293C2 /* Rescue App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Rescue App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		83EF766521F625E300E293C2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		83EF766721F625E300E293C2 /* LogInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
@@ -105,6 +107,7 @@
 				832B486B221E9C2A00D8289A /* DetailViewController.swift */,
 				83C10E672229A2EA001C2695 /* MapViewController.swift */,
 				83743DBD222DC9AA00DC4A58 /* SettingsTableViewController.swift */,
+				83EE195A223C049700C6B5BC /* UpdateStatusViewController.swift */,
 			);
 			path = Application;
 			sourceTree = "<group>";
@@ -122,7 +125,6 @@
 		83DDCACC2207C574001DF253 /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
-				833D723D222496E100EFECE8 /* UserAuthHelpers.swift */,
 				833D723B2224802C00EFECE8 /* OnboardingViewController.swift */,
 				83EF766721F625E300E293C2 /* LogInViewController.swift */,
 				83484E992224F50F00189229 /* GetStartedViewController.swift */,
@@ -139,6 +141,7 @@
 				8384915D21FFA5C200C65712 /* GradientView.swift */,
 				83DDCAC6220781B3001DF253 /* Constants.swift */,
 				83DDCAC822078275001DF253 /* Helper.swift */,
+				833D723D222496E100EFECE8 /* UserAuthHelpers.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -299,6 +302,7 @@
 			files = (
 				8317C4C9220259DD0044986E /* PetPostTableViewCell.swift in Sources */,
 				83C10E6A2229A56B001C2695 /* PostMapAnnotation.swift in Sources */,
+				83EE195B223C049700C6B5BC /* UpdateStatusViewController.swift in Sources */,
 				83DDCACB22078471001DF253 /* RegisterViewController.swift in Sources */,
 				8375EF8C220DFFC800EEEDAF /* NewPetPostViewController.swift in Sources */,
 				835D0C9021FFD11A008A63CA /* VerificationViewController.swift in Sources */,
