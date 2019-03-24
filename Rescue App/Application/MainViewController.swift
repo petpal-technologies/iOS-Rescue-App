@@ -10,8 +10,12 @@ import UIKit
 import Alamofire
 import CoreLocation
 import SwiftyJSON
+import MessageUI
 
-class MainTableViewController: UITableViewController{
+
+class MainTableViewController: UITableViewController, MFMailComposeViewControllerDelegate, EmailDelegator {
+    
+    
     var posts = [PetPost]()
     
     override func viewDidLoad() {
@@ -57,13 +61,14 @@ class MainTableViewController: UITableViewController{
     }
 
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 300
+        return 350
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = self.tableView.dequeueReusableCell(withIdentifier: "PetPostCell") as! PetPostTableViewCell
+        cell.delegate = self
         let post = posts[indexPath.row]
-        cell.postTitle = post.title
+        cell.post = post
         cell.postImageView.download(imagePath: post.image_path)
         cell.layoutSubviews()
         return cell
@@ -74,8 +79,8 @@ class MainTableViewController: UITableViewController{
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        tableView.deselectRow(at: indexPath, animated: true)
         performSegue(withIdentifier: "toDetail", sender: self)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
 
@@ -83,8 +88,6 @@ class MainTableViewController: UITableViewController{
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view
-        
-
         if let destinationVC = segue.destination as? DetailViewController {
             let index = self.tableView.indexPathForSelectedRow
             let indexNumber = index?.row
@@ -92,12 +95,48 @@ class MainTableViewController: UITableViewController{
             destinationVC.post = posts[indexNumber!]
         }
     }
+    
+    
+    
+    
+    // MARK: Email for verification of progress.
+    func email(postID dataobject: String) {
+        let email = ["chris@myunikorn.com", "sgorthy@myunikorn.com"]
+        let subject = "Verification of post with id: \(dataobject)"
         
+        let mailComposerVC = MFMailComposeViewController()
+        mailComposerVC.mailComposeDelegate = self
+        mailComposerVC.setToRecipients(email)
+        mailComposerVC.setSubject(subject)
+        mailComposerVC.setMessageBody("Thank you! \n\nBelow, add a description of how you cared for the animal and found it a place to stay so that we can verify it is completed. \n - Chris and Sri -", isHTML: false)
+        self.present(mailComposerVC, animated: true, completion: nil)
+    }
+    
+    func mailComposeController(_ controller:MFMailComposeViewController, didFinishWith result:MFMailComposeResult, error:Error?) {
+        switch result.rawValue {
+        case MFMailComposeResult.cancelled.rawValue:
+            print("Mail cancelled")
+        case MFMailComposeResult.saved.rawValue:
+            print("Mail saved")
+        case MFMailComposeResult.sent.rawValue:
+            print("Mail sent")
+        case MFMailComposeResult.failed.rawValue:
+            print("Mail sent failure: \(error?.localizedDescription)")
+        default:
+            break
+        }
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    
+
 }
 
 
 
-
+protocol EmailDelegator {
+    func email(postID dataobject: String)
+}
 
 
 

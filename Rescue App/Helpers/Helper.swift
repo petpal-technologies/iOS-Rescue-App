@@ -7,6 +7,10 @@
 //
 
 import UIKit
+import MessageUI
+import Alamofire
+import SwiftyJSON
+
 
 func showAlert(viewController: UIViewController, title: String, message: String){
     let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
@@ -33,10 +37,42 @@ func assignbackground(with image: UIImage, view:UIView){
     var imageView : UIImageView!
     imageView = UIImageView(frame: view.bounds)
     imageView.contentMode =  UIView.ContentMode.scaleAspectFill
-    imageView.clipsToBounds = true
     imageView.image = background
     imageView.center = view.center
     imageView.layer.opacity = 0.5
     view.addSubview(imageView)
     view.sendSubviewToBack(imageView)
+}
+
+func sendEmail(with subject: String, body: String, to: [String], viewController: UIViewController) {
+    
+    let mailComposerVC = MFMailComposeViewController()
+    mailComposerVC.setToRecipients(to)
+    mailComposerVC.setSubject(subject)
+    mailComposerVC.setMessageBody(body, isHTML: false)
+    viewController.present(mailComposerVC, animated: true, completion: nil)
+}
+
+func sendReply(with post_id: String, text: String) {
+    
+    let headers = [
+        // Fixes Alamofire bug with CSRF token needed
+        "Cookie": ""
+    ]
+    let params = ["post_id": post_id, "text": text, "author_id":"606f17047dcad50ff43f3a52a24d31bd"] as [String:Any]
+    Alamofire.request(API_HOST+"/comments/", method: .post, parameters: params, headers: headers).responseString
+        { response in switch response.result {
+        case .success(let data):
+            switch response.response?.statusCode ?? -1 {
+            case 200:
+                print("Success")
+            case 404:
+                print(print())
+            default:
+                print("Failure")
+            }
+        case .failure(_):
+            print("Failure")
+        }
+    }
 }

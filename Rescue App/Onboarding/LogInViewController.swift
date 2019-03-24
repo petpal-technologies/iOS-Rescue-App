@@ -40,16 +40,13 @@ class LogInViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        assignbackground(with: UIImage(named: "assorted_animals")!, view: self.view)
+        assignbackground(with: UIImage(named: "assorted_animals-1")!, view: self.view)
+        
         facebookLogin.layer.cornerRadius = 15
         facebookLogin.clipsToBounds = true
         
         EmailButton.layer.cornerRadius = 15
         EmailButton.clipsToBounds = true
-        
-        if let data = UserDefaults.standard.data(forKey: "user") {
-            didLogin(viewController: self, userData: data)
-        }
         
         //init toolbar
         let toolbar:UIToolbar = UIToolbar(frame: CGRect(x: 0, y: 0,  width: self.view.frame.size.width, height: 30))
@@ -63,18 +60,17 @@ class LogInViewController: UIViewController {
         self.passwordTextField.inputAccessoryView = toolbar
         self.facebookLogin.delegate = self
         self.facebookLogin.readPermissions = ["email","public_profile"]
+        
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
     }
     
 
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == emailTextField {
-            //change cursor from username to password textfield
             passwordTextField.becomeFirstResponder()
         } else if textField == passwordTextField {
-            //attempt to login when we press enter on password field
             let user = User(id: emailTextField.text!, username: emailTextField.text!)
-            
             login(viewController: self, username: user.username, password: passwordTextField.text!)
         }
         return true
@@ -85,6 +81,10 @@ class LogInViewController: UIViewController {
             let newVC = segue.destination as! OnboardingViewController
             newVC.email = self.userEmail
         }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
     }
     
 }

@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		83153D412246E25500D3B561 /* RepliesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83153D3F2246E25500D3B561 /* RepliesTableViewCell.swift */; };
+		83153D422246E25500D3B561 /* RepliesTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 83153D402246E25500D3B561 /* RepliesTableViewCell.xib */; };
+		83153D44224730D400D3B561 /* Reply.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83153D43224730D400D3B561 /* Reply.swift */; };
 		8317C4C9220259DD0044986E /* PetPostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8317C4C7220259DD0044986E /* PetPostTableViewCell.swift */; };
 		832B486C221E9C2A00D8289A /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 832B486B221E9C2A00D8289A /* DetailViewController.swift */; };
 		833D723C2224802C00EFECE8 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 833D723B2224802C00EFECE8 /* OnboardingViewController.swift */; };
@@ -38,6 +41,9 @@
 /* Begin PBXFileReference section */
 		35CF1CF8787AAB7316F50B90 /* Pods-Rescue App.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Rescue App.release.xcconfig"; path = "Pods/Target Support Files/Pods-Rescue App/Pods-Rescue App.release.xcconfig"; sourceTree = "<group>"; };
 		5BC041AECC75CB54F9386EDE /* Pods-Rescue App.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Rescue App.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Rescue App/Pods-Rescue App.debug.xcconfig"; sourceTree = "<group>"; };
+		83153D3F2246E25500D3B561 /* RepliesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepliesTableViewCell.swift; sourceTree = "<group>"; };
+		83153D402246E25500D3B561 /* RepliesTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RepliesTableViewCell.xib; sourceTree = "<group>"; };
+		83153D43224730D400D3B561 /* Reply.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reply.swift; sourceTree = "<group>"; };
 		8317C4C7220259DD0044986E /* PetPostTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetPostTableViewCell.swift; sourceTree = "<group>"; };
 		832B486B221E9C2A00D8289A /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		833D723B2224802C00EFECE8 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
@@ -100,6 +106,8 @@
 		8317C4CB220259E20044986E /* Application */ = {
 			isa = PBXGroup;
 			children = (
+				83153D3F2246E25500D3B561 /* RepliesTableViewCell.swift */,
+				83153D402246E25500D3B561 /* RepliesTableViewCell.xib */,
 				835025F421FAB3DA0048A15D /* CameraViewController.swift */,
 				835025F221FAB3D10048A15D /* MainViewController.swift */,
 				8317C4C7220259DD0044986E /* PetPostTableViewCell.swift */,
@@ -115,6 +123,7 @@
 		83DDCAC322077C52001DF253 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				83153D43224730D400D3B561 /* Reply.swift */,
 				83C10E692229A56B001C2695 /* PostMapAnnotation.swift */,
 				83DDCAC422077C7F001DF253 /* User.swift */,
 				83DDCACE2207C5F9001DF253 /* PetPost.swift */,
@@ -241,6 +250,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				83EF767021F625E500E293C2 /* LaunchScreen.storyboard in Resources */,
+				83153D422246E25500D3B561 /* RepliesTableViewCell.xib in Resources */,
 				83EF766D21F625E500E293C2 /* Assets.xcassets in Resources */,
 				83EF766B21F625E300E293C2 /* Main.storyboard in Resources */,
 			);
@@ -309,6 +319,7 @@
 				835025F321FAB3D10048A15D /* MainViewController.swift in Sources */,
 				835025F521FAB3DA0048A15D /* CameraViewController.swift in Sources */,
 				83DDCAC522077C7F001DF253 /* User.swift in Sources */,
+				83153D412246E25500D3B561 /* RepliesTableViewCell.swift in Sources */,
 				83C10E682229A2EA001C2695 /* MapViewController.swift in Sources */,
 				8384915E21FFA5C200C65712 /* GradientView.swift in Sources */,
 				83DDCACF2207C5F9001DF253 /* PetPost.swift in Sources */,
@@ -317,6 +328,7 @@
 				833D723E222496E100EFECE8 /* UserAuthHelpers.swift in Sources */,
 				833D723C2224802C00EFECE8 /* OnboardingViewController.swift in Sources */,
 				83DDCAC922078275001DF253 /* Helper.swift in Sources */,
+				83153D44224730D400D3B561 /* Reply.swift in Sources */,
 				832B486C221E9C2A00D8289A /* DetailViewController.swift in Sources */,
 				83484E9A2224F50F00189229 /* GetStartedViewController.swift in Sources */,
 				83EF766621F625E300E293C2 /* AppDelegate.swift in Sources */,

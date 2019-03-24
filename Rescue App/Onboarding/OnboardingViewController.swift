@@ -39,7 +39,6 @@ class OnboardingViewController: UIViewController {
         
         if email != nil && passwordField.text != nil {
             signUp(viewController: self, username: email!, password: passwordField.text!)
-            
         }
         
         

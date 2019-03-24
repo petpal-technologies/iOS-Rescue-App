@@ -10,7 +10,7 @@ import UIKit
 import CoreLocation
 import MapKit
 import Alamofire
-
+import SwiftyJSON
 
 class NewPetPostViewController: UIViewController, CLLocationManagerDelegate, UINavigationControllerDelegate, MKMapViewDelegate {
     
@@ -20,9 +20,10 @@ class NewPetPostViewController: UIViewController, CLLocationManagerDelegate, UIN
     @IBOutlet weak var cameraImageView: UIImageView!
     @IBOutlet weak var descriptionLabel: UITextView!
     
+    
     @IBOutlet weak var mapView: MKMapView!
     var imageToSend: UIImage?
-    
+    var addedID = ""
     let newPin = MKPointAnnotation()
     var lat: Double = 0.0
     var long: Double = 0.0
@@ -31,8 +32,9 @@ class NewPetPostViewController: UIViewController, CLLocationManagerDelegate, UIN
     
     var imagePicker: UIImagePickerController!
     
+    @IBOutlet weak var postButton: UIBarButtonItem!
     
-    // MARK: TODO
+    
     @IBAction func postButtonPressed(_ sender: Any) {
         let dateString = Date().iso8601   //  "2019-02-06T00:35:01.746Z"
         
@@ -41,8 +43,11 @@ class NewPetPostViewController: UIViewController, CLLocationManagerDelegate, UIN
             alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
             }))
             self.present(alert, animated: true, completion: nil)
+            return
         }
         
+        postButton.title = "Posting..."
+        postButton.isEnabled = false
         let parameters:Parameters = [
                 "created": dateString,
                 "modified": dateString,
@@ -65,7 +70,6 @@ class NewPetPostViewController: UIViewController, CLLocationManagerDelegate, UIN
                 let imageData = image.jpegData(compressionQuality: 0.2)
                 multipartFormData.append(imageData!, withName: "image", fileName: "photo.jpg", mimeType: "jpg/png")
             }
-        
             
             for (key, value) in parameters {
                 if value is String || value is Int || value is Float {
@@ -78,10 +82,19 @@ class NewPetPostViewController: UIViewController, CLLocationManagerDelegate, UIN
             encodingCompletion: { encodingResult in
                 switch encodingResult {
                 case .success(let upload, _, _):
-                    upload.responseString { response in
-                        debugPrint(response.result)
+                    upload.responseJSON { (responseData) -> Void in
+                        if((responseData.result.value) != nil) {
+                            let jsonObject:JSON = JSON(responseData.result.value!)
+                            
+                            if let resData = jsonObject["post"].arrayObject {
+                                for post in resData{
+                                    let post = JSON(post)
+                                    self.addedID = post["id"].string!
+                                }
+                            }
+                            self.showSharingAlert()
+                        }
                         self.navigationController?.popViewController(animated: true)
-
                     }
                 case .failure(let encodingError):
                     print("encoding Error : \(encodingError)")
@@ -187,6 +200,29 @@ class NewPetPostViewController: UIViewController, CLLocationManagerDelegate, UIN
        
         locationManager.stopUpdatingLocation()
         
+    }
+    
+    func showSharingAlert(){
+        let refreshAlert = UIAlertController(title: "Share", message: "Sharing will help find a safe home quicker", preferredStyle: UIAlertController.Style.alert)
+        
+        refreshAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
+            
+            let link = API_HOST + "/post/" + self.addedID
+            
+            // set up activity view controller
+            let textToShare = [ link ]
+            let activityViewController = UIActivityViewController(activityItems: textToShare, applicationActivities: nil)
+            activityViewController.popoverPresentationController?.sourceView = self.view // so that iPads won't crash
+            
+            // present the view controller
+            self.present(activityViewController, animated: true, completion: nil)
+            
+        }))
+        
+        refreshAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
+        }))
+        
+        present(refreshAlert, animated: true, completion: nil)
     }
 
 

@@ -10,16 +10,15 @@ import UIKit
 import FBSDKCoreKit
 import FBSDKLoginKit
 import Alamofire
+import MessageUI
 
-class SettingsTableViewController: UITableViewController {
+
+class SettingsTableViewController: UITableViewController, MFMailComposeViewControllerDelegate {
 
     @IBAction func logoutButtonPressed(_ sender: Any) {
-        
-        if FBSDKAccessToken.current() != nil {
-            FBSDKAccessToken.setCurrent(nil)
-        }
         signOut(viewController: self)
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -31,15 +30,30 @@ class SettingsTableViewController: UITableViewController {
     }
 
     @IBAction func sendFeedbackButton(_ sender: Any) {
-        let email = "chris@myunikorn.com"
-        if let url = URL(string: "mailto:\(email)") {
-            if #available(iOS 10.0, *) {
-                UIApplication.shared.open(url)
-            } else {
-                UIApplication.shared.openURL(url)
-            }
-        }
         
+        let mailComposerVC = MFMailComposeViewController()
+        mailComposerVC.mailComposeDelegate = self
+        mailComposerVC.setToRecipients(["chris@myunikorn.com", "sgorthy@myunikorn.com"])
+        mailComposerVC.setSubject("Feedback")
+        mailComposerVC.setMessageBody("", isHTML: false)
+        self.present(mailComposerVC, animated: true, completion: nil)
+        
+    }
+    
+    func mailComposeController(_ controller:MFMailComposeViewController, didFinishWith result:MFMailComposeResult, error:Error?) {
+        switch result.rawValue {
+        case MFMailComposeResult.cancelled.rawValue:
+            print("Mail cancelled")
+        case MFMailComposeResult.saved.rawValue:
+            print("Mail saved")
+        case MFMailComposeResult.sent.rawValue:
+            print("Mail sent")
+        case MFMailComposeResult.failed.rawValue:
+            print("Mail sent failure: \(error?.localizedDescription)")
+        default:
+            break
+        }
+        self.dismiss(animated: true, completion: nil)
     }
     
     

@@ -11,17 +11,23 @@ import FBSDKLoginKit
 
 class GetStartedViewController: UIViewController {
 
+    @IBOutlet weak var button: UIButton!
+    
     override func viewWillAppear(_ animated: Bool) {
         // HOW DO I CHECK IF THE USER IS LOGGED IN FFS
         if FBSDKAccessToken.current() != nil {
 //            didLogin(viewController: self, userData: )
             navigateToTabBar(viewController: self)
+        } else if (UserDefaults.standard.string(forKey: "user_id") != nil) {
+            navigateToTabBar(viewController: self)
         }
+
     }
     
     override func viewDidLoad() {
         assignbackground(with: UIImage(named: "dolphin_hoop")!, view: self.view)
         self.navigationController?.setNavigationBarHidden(true, animated: false)
+        button.layer.cornerRadius = 15
     }
     
     override func viewWillDisappear(_ animated: Bool) {
