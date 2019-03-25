@@ -20,6 +20,20 @@ class PetPostTableViewCell: UITableViewCell  {
         return titleLabel
     }()
     
+    var inProgressLabel: UILabel = {
+        var inProgressLabel = UILabel()
+        inProgressLabel.translatesAutoresizingMaskIntoConstraints = false
+        inProgressLabel.font = inProgressLabel.font.withSize(10)
+        return inProgressLabel
+    }()
+    
+    var markIfCompleteLabel: UILabel = {
+        var markIfCompleteLabel = UILabel()
+        markIfCompleteLabel.translatesAutoresizingMaskIntoConstraints = false
+        markIfCompleteLabel.font = markIfCompleteLabel.font.withSize(10)
+        return markIfCompleteLabel
+    }()
+    
     var dateLabel: UILabel = {
         var dateLabel = UILabel()
         dateLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -73,6 +87,8 @@ class PetPostTableViewCell: UITableViewCell  {
         view.clipsToBounds = true
         return view
     }()
+    
+    
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -92,6 +108,8 @@ class PetPostTableViewCell: UITableViewCell  {
         self.addSubview(checkmarkImage)
         self.addSubview(detailsImageView)
         self.addSubview(dateLabel)
+        self.addSubview(markIfCompleteLabel)
+        self.addSubview(inProgressLabel)
         
         containerView.topAnchor.constraint(equalTo: self.topAnchor, constant: 10).isActive = true
         containerView.leadingAnchor.constraint(equalTo:self.leadingAnchor, constant:10).isActive = true
@@ -118,7 +136,7 @@ class PetPostTableViewCell: UITableViewCell  {
         statusImage.heightAnchor.constraint(equalToConstant: 50).isActive = true
         
         checkmarkImage.topAnchor.constraint(equalTo:self.postImageView.bottomAnchor, constant:5).isActive = true
-        checkmarkImage.leadingAnchor.constraint(equalTo: statusImage.trailingAnchor).isActive = true
+        checkmarkImage.leadingAnchor.constraint(equalTo: statusImage.trailingAnchor, constant:20).isActive = true
         checkmarkImage.widthAnchor.constraint(equalToConstant:40).isActive = true
         checkmarkImage.heightAnchor.constraint(equalToConstant: 40).isActive = true
         
@@ -130,6 +148,12 @@ class PetPostTableViewCell: UITableViewCell  {
         dateLabel.heightAnchor.constraint(equalToConstant: 25).isActive = true
         dateLabel.trailingAnchor.constraint(equalTo:self.trailingAnchor, constant:-10).isActive = true
         dateLabel.centerYAnchor.constraint(equalTo: self.postImageView.bottomAnchor, constant: 25).isActive = true
+        
+        markIfCompleteLabel.topAnchor.constraint(equalTo: self.checkmarkImage.bottomAnchor,constant: -4).isActive = true
+        markIfCompleteLabel.leadingAnchor.constraint(equalTo: self.checkmarkImage.leadingAnchor).isActive = true
+
+        inProgressLabel.topAnchor.constraint(equalTo: self.statusImage.bottomAnchor, constant:-9).isActive = true
+        inProgressLabel.leadingAnchor.constraint(equalTo: self.statusImage.leadingAnchor).isActive = true
         
         // MARK: Tap gesture to change status of animal
         let singleTap = UITapGestureRecognizer(target: self, action: #selector(tapDetected))
@@ -152,7 +176,11 @@ class PetPostTableViewCell: UITableViewCell  {
         if let _post = post {
             titleLabel.text = _post.title
             descriptionLabel.text = _post.description
-            dateLabel.text = "Date"
+            
+            let created = String(_post.created.characters.prefix(10))
+            dateLabel.text = created
+            markIfCompleteLabel.text = "Mark if complete"
+            inProgressLabel.text = "In Progress"
         }
 
         statusImage.image = UIImage(named: "binoculars")

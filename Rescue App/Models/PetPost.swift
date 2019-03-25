@@ -21,8 +21,9 @@ struct PetPost {
     var image = UIImage(named: "404-not-found")
     var description: String
     var status: String
+    var created: String
     
-    init(title:String, coordinates:CLLocation, locationDescription:String, id: String, image_path: String, description: String, status: String) {
+    init(title:String, coordinates:CLLocation, locationDescription:String, id: String, image_path: String, description: String, status: String, created: String) {
         self.title = title
         self.locationDescription = locationDescription
         self.coordinates = coordinates
@@ -30,6 +31,7 @@ struct PetPost {
         self.image_path = image_path
         self.description = description
         self.status = status
+        self.created = created
     }
     
 }

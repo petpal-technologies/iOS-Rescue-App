@@ -53,10 +53,10 @@ class MapViewController: UIViewController {
                         let post_uuid = J_post["id"].string
                         let image_path = J_post["image"].string
                         let status = J_post["status"].string
-                        
+                        let created = J_post["created"].string
                         let post_annotation = PostMapAnnotation(title: title!, locationName: description!, coordinate: CLLocationCoordinate2D(latitude: lat!, longitude: long!))
                         
-                        let pet_post = PetPost(title: title!, coordinates: CLLocation(latitude: lat!, longitude: long!), locationDescription: location_desc!, id: post_uuid!, image_path: image_path!, description: description!, status: status!)
+                        let pet_post = PetPost(title: title!, coordinates: CLLocation(latitude: lat!, longitude: long!), locationDescription: location_desc!, id: post_uuid!, image_path: image_path!, description: description!, status: status!, created: created!)
                         self.postAnnotations.append(post_annotation)
                         self.posts.append(pet_post)
                     }

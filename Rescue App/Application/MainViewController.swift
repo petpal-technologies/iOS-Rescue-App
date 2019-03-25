@@ -47,7 +47,8 @@ class MainTableViewController: UITableViewController, MFMailComposeViewControlle
                         let image_path = J_post["image"].string
                         let description = J_post["description"].string
                         let status = J_post["status"].string
-                        let pet_post = PetPost(title: title!, coordinates: CLLocation(latitude: lat!, longitude: long!), locationDescription: location_desc!, id: post_uuid!, image_path: image_path!, description: description!, status: status!)
+                        let created = J_post["created"].string
+                        let pet_post = PetPost(title: title!, coordinates: CLLocation(latitude: lat!, longitude: long!), locationDescription: location_desc!, id: post_uuid!, image_path: image_path!, description: description!, status: status!, created: created!)
                         self.posts.append(pet_post)
                     }
                 }
