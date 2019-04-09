@@ -36,8 +36,9 @@ func didLogin(viewController: UIViewController, userData:Data) {
         //decode data into user object
         User.current = try JSONDecoder().decode(User.self, from: userData)
         user_id = User.current.id
+        
         UserDefaults.standard.set(user_id, forKey: "user_id")
-
+        UserDefaults.standard.set(User.current.username, forKey: "user_name")
         // when log out just clear this token.
 //        UserDefaults.standard.string(forKey: "user_id")
 //        UserDefaults.standard.object(forKey: "current_user")
@@ -50,8 +51,8 @@ func didLogin(viewController: UIViewController, userData:Data) {
 }
 
 
-func signUp(viewController: UIViewController, username:String,password:String) {
-    let params = ["username":username,"password":password] as [String:Any]
+func signUp(viewController: UIViewController, username:String,password:String, user_name: String) {
+    let params = ["username":username,"password":password, "user_name":user_name] as [String:Any]
     Alamofire.request(API_HOST+"/auth/signup",method:.post,parameters:params).responseData
         { response in switch response.result {
         case .success(let data):
@@ -61,13 +62,13 @@ func signUp(viewController: UIViewController, username:String,password:String) {
                     User.current = try JSONDecoder().decode(User.self, from: data)
                     user_id = User.current.id
                     UserDefaults.standard.set(user_id, forKey: "user_id")
-                    print(UserDefaults.standard.string(forKey: "user_id"))
+                    UserDefaults.standard.set(user_name, forKey: "user_name")
                     navigateToTabBar(viewController: viewController)
                 } catch {
                     showAlert(viewController: viewController, title: "Oops!",message: error.localizedDescription)
                 }
             case 401:
-                showAlert(viewController: viewController, title: "Oops", message: "Username Taken")
+                showAlert(viewController: viewController, title: "Oops", message: "Email in use")
             default:
                 showAlert(viewController: viewController, title: "Oops", message: "Unexpected Error")
             }

@@ -17,6 +17,7 @@ class OnboardingViewController: UIViewController {
     var email: String?
     @IBOutlet weak var passwordField: UITextField!
     @IBOutlet weak var typesOfPeoplePicker: UIPickerView!
+    @IBOutlet weak var usernameField: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,7 +39,7 @@ class OnboardingViewController: UIViewController {
     @IBAction func signUpButtonPressed(_ sender: Any) {
         
         if email != nil && passwordField.text != nil {
-            signUp(viewController: self, username: email!, password: passwordField.text!)
+            signUp(viewController: self, username: email!, password: passwordField.text!,user_name: usernameField.text!)
         }
         
         

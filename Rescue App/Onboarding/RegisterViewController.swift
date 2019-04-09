@@ -14,7 +14,8 @@ class RegisterViewController: UIViewController {
     @IBOutlet weak var emailField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
     @IBOutlet weak var confirmPassword: UITextField!
-
+    @IBOutlet weak var usernameField: UITextField!
+    
     var typesOfPeople = [String]()
     
     @IBOutlet weak var typesOfPeoplePicker: UIPickerView!
@@ -44,6 +45,7 @@ class RegisterViewController: UIViewController {
         self.emailField.inputAccessoryView = toolbar
         self.passwordField.inputAccessoryView = toolbar
         self.confirmPassword.inputAccessoryView = toolbar
+        self.usernameField.inputAccessoryView = toolbar
     }
     
 
@@ -52,13 +54,15 @@ class RegisterViewController: UIViewController {
         if textField == emailField {
             passwordField.becomeFirstResponder()
         } else if textField == passwordField {
-            signUp(viewController: self, username: emailField.text!, password: passwordField.text!)
+            signUp(viewController: self, username: emailField.text!, password: passwordField.text!, user_name: usernameField.text!)
         }
         return true
     }
     
     @IBAction func registerAction(_ sender: Any) {
-        signUp(viewController: self, username: emailField.text!, password: passwordField.text!)
+        if passwordField.text == confirmPassword.text && emailField.text != "" && passwordField.text != "" && usernameField.text != "" {
+            signUp(viewController: self, username: emailField.text!, password: passwordField.text!, user_name: usernameField.text! )
+        }
     }
     
     

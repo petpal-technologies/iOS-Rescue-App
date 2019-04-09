@@ -68,7 +68,7 @@ class MapViewController: UIViewController {
         super.viewDidLoad()
         mapView.delegate = self
 
-        let initialLocation = CLLocation(latitude: 37.782013, longitude: -121.945625)
+        let initialLocation = CLLocation(latitude: (locationManager.location?.coordinate.latitude)!, longitude: (locationManager.location?.coordinate.longitude)!)
         centerMapOnLocation(location: initialLocation)
         
     }
@@ -85,9 +85,6 @@ class MapViewController: UIViewController {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
     }
-    
-    // Fetch posts.
-    
 }
 extension MapViewController: MKMapViewDelegate {
     // 1

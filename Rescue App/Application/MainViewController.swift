@@ -22,7 +22,11 @@ class MainTableViewController: UITableViewController, MFMailComposeViewControlle
         super.viewDidLoad()
         
         tableView.register(PetPostTableViewCell.self, forCellReuseIdentifier: "PetPostCell")
-    
+        
+        // Put this here so if user_name is not valid, it will prompt you to sign up, avoiding errors for people who may not be logged out by update
+        if UserDefaults.standard.value(forKey: "user_name") == nil {
+            signOut(viewController: self)
+        }
         
     }
     

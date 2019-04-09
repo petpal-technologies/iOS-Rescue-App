@@ -85,16 +85,9 @@ class NewPetPostViewController: UIViewController, CLLocationManagerDelegate, UIN
                     upload.responseJSON { (responseData) -> Void in
                         if((responseData.result.value) != nil) {
                             let jsonObject:JSON = JSON(responseData.result.value!)
-                            
-                            if let resData = jsonObject["post"].arrayObject {
-                                for post in resData{
-                                    let post = JSON(post)
-                                    self.addedID = post["id"].string!
-                                }
-                            }
+                            self.addedID = jsonObject["id"].stringValue
                             self.showSharingAlert()
                         }
-                        self.navigationController?.popViewController(animated: true)
                     }
                 case .failure(let encodingError):
                     print("encoding Error : \(encodingError)")
@@ -216,13 +209,14 @@ class NewPetPostViewController: UIViewController, CLLocationManagerDelegate, UIN
             
             // present the view controller
             self.present(activityViewController, animated: true, completion: nil)
-            
+            self.navigationController?.popViewController(animated: true)
+
         }))
         
-        refreshAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
+        refreshAlert.addAction(UIAlertAction(title: "No thanks", style: .cancel, handler: { (action: UIAlertAction!) in
         }))
         
-        present(refreshAlert, animated: true, completion: nil)
+        self.present(refreshAlert, animated: true)
     }
 
 

@@ -70,6 +70,7 @@ class DetailViewController: UIViewController, MKMapViewDelegate  {
     }
     
     func getComments(){
+        replies.removeAll()
         if let _post = post {
             let params = ["post_id": _post.id] as [String:Any]
             Alamofire.request("\(API_HOST)/comments/", method:.get,parameters:params).responseJSON { (responseData) -> Void in
@@ -82,7 +83,8 @@ class DetailViewController: UIViewController, MKMapViewDelegate  {
                             let comment = JSON(comment)
                             let text = comment["text"].string
                             let created_date = comment["created_date"].string
-                            let reply = Reply(text: text!, date: created_date!)
+                            let user_name = comment["author_name"].string
+                            let reply = Reply(text: text!, date: created_date!, user_name: user_name!)
                             self.replies.append(reply)
                         }
                         self.replies = self.replies.reversed()
@@ -144,7 +146,7 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = self.tableView.dequeueReusableCell(withIdentifier: "ReplyTableCell") as! RepliesTableViewCell
         
         cell.body.text = replies[indexPath.row].text
-        cell.poster.text = replies[indexPath.row].created_date
+        cell.poster.text = replies[indexPath.row].user_name
         return cell
     }
     

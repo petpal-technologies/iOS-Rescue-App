@@ -28,10 +28,10 @@ class LogInViewController: UIViewController {
             }))
             self.present(alert, animated: true, completion: nil)
 
+        } else {
+            let user = User(id: emailTextField.text!, username: emailTextField.text!)
+            login(viewController: self, username: user.username, password: passwordTextField.text!)
         }
-        let user = User(id: emailTextField.text!, username: emailTextField.text!)
-        login(viewController: self, username: user.username, password: passwordTextField.text!)
-        
     }
     
     @objc func doneButtonAction() {
@@ -77,7 +77,7 @@ class LogInViewController: UIViewController {
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "toOnboarding" {
+        if segue.identifier == "toOnboarding"{
             let newVC = segue.destination as! OnboardingViewController
             newVC.email = self.userEmail
         }

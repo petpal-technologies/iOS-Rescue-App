@@ -59,20 +59,26 @@ func sendReply(with post_id: String, text: String) {
         // Fixes Alamofire bug with CSRF token needed
         "Cookie": ""
     ]
-    let params = ["post_id": post_id, "text": text, "author_id":"606f17047dcad50ff43f3a52a24d31bd"] as [String:Any]
-    Alamofire.request(API_HOST+"/comments/", method: .post, parameters: params, headers: headers).responseString
-        { response in switch response.result {
-        case .success(let data):
-            switch response.response?.statusCode ?? -1 {
-            case 200:
-                print("Success")
-            case 404:
-                print(print())
-            default:
-                print("Failure")
+    
+    if let user_id = UserDefaults.standard.value(forKey: "user_id") {
+        if let author_name = UserDefaults.standard.value(forKey: "user_name"){
+            let params = ["post_id": post_id, "text": text, "author_id": user_id, "author_name":author_name] as [String:Any]
+            Alamofire.request(API_HOST+"/comments/", method: .post, parameters: params, headers: headers).responseString
+                { response in switch response.result {
+                case .success(let data):
+                    switch response.response?.statusCode ?? -1 {
+                    case 200:
+                        print("Success")
+                    case 404:
+                        print(print())
+                    default:
+                        print("Failure")
+                    }
+                case .failure(_):
+                    print("Failure")
+                    }
             }
-        case .failure(_):
-            print("Failure")
         }
     }
+
 }
