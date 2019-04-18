@@ -116,7 +116,7 @@ class NewPetPostViewController: UIViewController, CLLocationManagerDelegate, UIN
         toolbar.sizeToFit()
         self.titleField.inputAccessoryView = toolbar
         self.locationDescriptionField.inputAccessoryView = toolbar
-        self.locationDescriptionField.inputAccessoryView = toolbar
+        self.descriptionLabel.inputAccessoryView = toolbar
 
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
         cameraImageView.isUserInteractionEnabled = true
@@ -214,6 +214,9 @@ class NewPetPostViewController: UIViewController, CLLocationManagerDelegate, UIN
         }))
         
         refreshAlert.addAction(UIAlertAction(title: "No thanks", style: .cancel, handler: { (action: UIAlertAction!) in
+            
+            self.navigationController?.popViewController(animated: true)
+            
         }))
         
         self.present(refreshAlert, animated: true)

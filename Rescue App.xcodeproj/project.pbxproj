@@ -12,7 +12,7 @@
 		83153D44224730D400D3B561 /* Reply.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83153D43224730D400D3B561 /* Reply.swift */; };
 		8317C4C9220259DD0044986E /* PetPostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8317C4C7220259DD0044986E /* PetPostTableViewCell.swift */; };
 		832B486C221E9C2A00D8289A /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 832B486B221E9C2A00D8289A /* DetailViewController.swift */; };
-		833D723C2224802C00EFECE8 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 833D723B2224802C00EFECE8 /* OnboardingViewController.swift */; };
+		833D723C2224802C00EFECE8 /* FacebookOnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 833D723B2224802C00EFECE8 /* FacebookOnboardingViewController.swift */; };
 		833D723E222496E100EFECE8 /* UserAuthHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 833D723D222496E100EFECE8 /* UserAuthHelpers.swift */; };
 		83484E9A2224F50F00189229 /* GetStartedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83484E992224F50F00189229 /* GetStartedViewController.swift */; };
 		835025F321FAB3D10048A15D /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835025F221FAB3D10048A15D /* MainViewController.swift */; };
@@ -46,7 +46,7 @@
 		83153D43224730D400D3B561 /* Reply.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reply.swift; sourceTree = "<group>"; };
 		8317C4C7220259DD0044986E /* PetPostTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetPostTableViewCell.swift; sourceTree = "<group>"; };
 		832B486B221E9C2A00D8289A /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
-		833D723B2224802C00EFECE8 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
+		833D723B2224802C00EFECE8 /* FacebookOnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacebookOnboardingViewController.swift; sourceTree = "<group>"; };
 		833D723D222496E100EFECE8 /* UserAuthHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAuthHelpers.swift; sourceTree = "<group>"; };
 		83484E992224F50F00189229 /* GetStartedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetStartedViewController.swift; sourceTree = "<group>"; };
 		835025F221FAB3D10048A15D /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -134,7 +134,7 @@
 		83DDCACC2207C574001DF253 /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
-				833D723B2224802C00EFECE8 /* OnboardingViewController.swift */,
+				833D723B2224802C00EFECE8 /* FacebookOnboardingViewController.swift */,
 				83EF766721F625E300E293C2 /* LogInViewController.swift */,
 				83484E992224F50F00189229 /* GetStartedViewController.swift */,
 				835D0C8F21FFD11A008A63CA /* VerificationViewController.swift */,
@@ -326,7 +326,7 @@
 				83BFC362221CD730000E121A /* Extensions.swift in Sources */,
 				83EF766821F625E300E293C2 /* LogInViewController.swift in Sources */,
 				833D723E222496E100EFECE8 /* UserAuthHelpers.swift in Sources */,
-				833D723C2224802C00EFECE8 /* OnboardingViewController.swift in Sources */,
+				833D723C2224802C00EFECE8 /* FacebookOnboardingViewController.swift in Sources */,
 				83DDCAC922078275001DF253 /* Helper.swift in Sources */,
 				83153D44224730D400D3B561 /* Reply.swift in Sources */,
 				832B486C221E9C2A00D8289A /* DetailViewController.swift in Sources */,

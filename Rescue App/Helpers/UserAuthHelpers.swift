@@ -12,8 +12,27 @@ import UIKit
 import FBSDKLoginKit
 import FBSDKCoreKit
 
+
+func fbLogin(username: String, viewController: UIViewController){
+    let params = ["username": username, "fb_user": true] as [String : Any]
+    
+    Alamofire.request(API_HOST+"/auth/fbLogin",method:.post,parameters:params).responseData {
+        response in switch response.result {
+        case .success(let data):
+            switch response.response?.statusCode ?? -1 {
+            case 200:
+                didLogin(viewController: viewController, userData: data)
+            default:
+                showAlert(viewController: viewController, title: "Oops", message: "Unexpected Error")
+            }
+        case .failure(let error):
+            showAlert(viewController: viewController,title: "Oops!",message: error.localizedDescription)
+        }
+    }
+}
+
 func login(viewController: UIViewController, username:String,password:String) {
-    let params = ["username":username,"password":password] as [String:Any]
+    let params = ["username":username,"password":password, "fb_user": false] as [String:Any]
     Alamofire.request(API_HOST+"/auth/login",method:.post,parameters:params).responseData
         { response in switch response.result {
         case .success(let data):
@@ -39,10 +58,7 @@ func didLogin(viewController: UIViewController, userData:Data) {
         
         UserDefaults.standard.set(user_id, forKey: "user_id")
         UserDefaults.standard.set(User.current.username, forKey: "user_name")
-        // when log out just clear this token.
-//        UserDefaults.standard.string(forKey: "user_id")
-//        UserDefaults.standard.object(forKey: "current_user")
-        
+
         viewController.view.endEditing(false)
         navigateToTabBar(viewController: viewController)
     } catch {
@@ -50,9 +66,9 @@ func didLogin(viewController: UIViewController, userData:Data) {
     }
 }
 
-
-func signUp(viewController: UIViewController, username:String,password:String, user_name: String) {
-    let params = ["username":username,"password":password, "user_name":user_name] as [String:Any]
+func fbSignUp(viewController: UIViewController, username:String, user_name: String, fb_user: Bool) {
+    
+    let params = ["username":username, "user_name":user_name, "fb_user": true] as [String:Any]
     Alamofire.request(API_HOST+"/auth/signup",method:.post,parameters:params).responseData
         { response in switch response.result {
         case .success(let data):
@@ -69,6 +85,30 @@ func signUp(viewController: UIViewController, username:String,password:String, u
                 }
             case 401:
                 showAlert(viewController: viewController, title: "Oops", message: "Email in use")
+            case 403:
+                showAlert(viewController: viewController, title: "Email in use", message: "Please return to login")
+            default:
+                showAlert(viewController: viewController, title: "Oops", message: "Unexpected Error")
+            }
+        case .failure(let error):
+            showAlert(viewController: viewController,title: "Oops!",message: error.localizedDescription)
+            }
+    }
+}
+
+
+func signUp(viewController: UIViewController, username:String,password:String, user_name: String, fb_user: Bool) {
+    let params = ["username":username,"password":password, "user_name":user_name, "fb_user": false] as [String:Any]
+    Alamofire.request(API_HOST+"/auth/signup",method:.post,parameters:params).responseData
+        { response in switch response.result {
+        case .success(let data):
+            switch response.response?.statusCode ?? -1 {
+            case 200:
+                didLogin(viewController: viewController, userData: data)
+            case 401:
+                showAlert(viewController: viewController, title: "Oops", message: "Email in use")
+            case 403:
+                showAlert(viewController: viewController, title: "Email in use", message: "Please return to login")
             default:
                 showAlert(viewController: viewController, title: "Oops", message: "Unexpected Error")
             }
@@ -120,4 +160,28 @@ func editPost(viewController: UIViewController, post: PetPost) {
             showAlert(viewController: viewController,title: "Oops!",message: error.localizedDescription)
         }
     }
+}
+
+
+func validateUsername(username: String, viewController: UIViewController) -> Bool {
+    let params = ["username": username]
+    
+    var exists = false
+    
+    Alamofire.request(API_HOST+"/auth/usernameExists",method:.post,parameters:params).responseData {
+        response in switch response.result {
+        case .success(let data):
+            switch response.response?.statusCode ?? -1 {
+            case 200:
+                print("Username Exists")
+                exists = true
+            default:
+                showAlert(viewController: viewController, title: "Oops", message: "Unexpected Error")
+            }
+        case .failure(let error):
+            showAlert(viewController: viewController,title: "Oops!",message: error.localizedDescription)
+        }
+    }
+
+    return exists
 }

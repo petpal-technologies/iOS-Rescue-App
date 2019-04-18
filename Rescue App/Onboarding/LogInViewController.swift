@@ -77,10 +77,18 @@ class LogInViewController: UIViewController {
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "toOnboarding"{
-            let newVC = segue.destination as! OnboardingViewController
-            newVC.email = self.userEmail
+        // Note: FBSDK Handlers are in Extensions.swift
+        
+        //Let's validate a username to check if user actually needs to go through ob
+        if validateUsername(username: userEmail, viewController: self) {
+            fbLogin(username: userEmail)
+        } else {
+            if segue.identifier == "toOnboarding"{
+                let newVC = segue.destination as! FacebookOnboardingViewController
+                newVC.email = self.userEmail
+            }
         }
+
     }
     
     override func viewWillDisappear(_ animated: Bool) {

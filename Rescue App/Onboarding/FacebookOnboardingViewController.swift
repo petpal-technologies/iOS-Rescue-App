@@ -8,14 +8,13 @@
 
 import UIKit
 
-class OnboardingViewController: UIViewController {
+class FacebookOnboardingViewController: UIViewController {
     @objc func doneButtonAction() {
         self.view.endEditing(true)
     }
     
     var typesOfPeople = [String]()
     var email: String?
-    @IBOutlet weak var passwordField: UITextField!
     @IBOutlet weak var typesOfPeoplePicker: UIPickerView!
     @IBOutlet weak var usernameField: UITextField!
     
@@ -33,13 +32,12 @@ class OnboardingViewController: UIViewController {
         let doneBtn: UIBarButtonItem = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(self.doneButtonAction))
         toolbar.setItems([flexSpace, doneBtn], animated: false)
         toolbar.sizeToFit()
-        self.passwordField.inputAccessoryView = toolbar
     }
     
     @IBAction func signUpButtonPressed(_ sender: Any) {
-        
-        if email != nil && passwordField.text != nil {
-            signUp(viewController: self, username: email!, password: passwordField.text!,user_name: usernameField.text!)
+
+        if email != nil {
+            fbSignUp(viewController: self, username: email!, user_name: usernameField.text!, fb_user: false)
         }
         
         

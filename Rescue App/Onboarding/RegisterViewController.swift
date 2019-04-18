@@ -54,14 +54,14 @@ class RegisterViewController: UIViewController {
         if textField == emailField {
             passwordField.becomeFirstResponder()
         } else if textField == passwordField {
-            signUp(viewController: self, username: emailField.text!, password: passwordField.text!, user_name: usernameField.text!)
+            signUp(viewController: self, username: emailField.text!, password: passwordField.text!, user_name: usernameField.text!, fb_user: false)
         }
         return true
     }
     
     @IBAction func registerAction(_ sender: Any) {
         if passwordField.text == confirmPassword.text && emailField.text != "" && passwordField.text != "" && usernameField.text != "" {
-            signUp(viewController: self, username: emailField.text!, password: passwordField.text!, user_name: usernameField.text! )
+            signUp(viewController: self, username: emailField.text!, password: passwordField.text!, user_name: usernameField.text!, fb_user: false )
         }
     }
     

@@ -96,14 +96,13 @@ extension NewPetPostViewController: UIImagePickerControllerDelegate{
 
 
 // Bring these 2 together because they do the same thing
-extension OnboardingViewController: UIPickerViewDelegate, UIPickerViewDataSource {
+extension FacebookOnboardingViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
     
     func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
-        
         let string = typesOfPeople[row]
         return NSAttributedString(string: string, attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
     }
@@ -139,9 +138,10 @@ extension RegisterViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return typesOfPeople.count
     }
-    
 }
 
+
+// MARK: Facebook Authentication Handling
 extension LogInViewController: FBSDKLoginButtonDelegate {
     func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
         
@@ -157,6 +157,8 @@ extension LogInViewController: FBSDKLoginButtonDelegate {
                         if let email : NSString = (result! as AnyObject).value(forKey: "email") as? NSString {
                             self.userEmail = email as String
                             self.performSegue(withIdentifier: "toOnboarding", sender: self)
+                        } else {
+                            showAlert(viewController: LogInViewController(), title: "Email can not be verified", message: "Please try again or login without Facebook")
                         }
                     }
                 })
@@ -166,6 +168,7 @@ extension LogInViewController: FBSDKLoginButtonDelegate {
     }
     
     func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {
+        // This won't be triggered by our sign out because all we do is delete the FB token
         print("User logged out")
     }
     
